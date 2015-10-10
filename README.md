@@ -6,4 +6,4 @@ A very bland blog.
 |Krzysztof Hochlewicz  | Leader                         |
 |Peter Strbik          | Backend                        |
 |Andrew Kratsios       | Middleware                     |
-|Serena Chan           | User Experience                |
+|Serena Chan           | UX                             |
