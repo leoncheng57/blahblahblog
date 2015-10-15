@@ -16,6 +16,9 @@ def login():
 def terms():
     return render_template("terms.html")
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 
 if __name__== "__main__":
