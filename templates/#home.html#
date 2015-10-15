@@ -46,18 +46,12 @@
       </nav>
 
       <div class="input-group margin-bottom-sm">
-	<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i>Search</span>
-	<input class="form-control" type="text" placeholder="Enter query">
+	<span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i>Post</span>
+	<input class="form-control" type="text" placeholder="Make a post">
       </div>
 
       <div class="row">
-	<div>
-<!--
-	 {% for post in posts %}
-	 
-	 {% endfor %}
--->
-	</div>
+	<
       </div>
       
     </div>
