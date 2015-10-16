@@ -20,6 +20,14 @@ def terms():
 def signup():
     return render_template("signup.html")
 
+@app.route("/myaccount")
+def myaccount():
+    return render_template("myaccount.html")
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 
 if __name__== "__main__":
     app.debug = True
