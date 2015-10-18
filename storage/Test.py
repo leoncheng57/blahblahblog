@@ -1,3 +1,3 @@
-import Posts
+import Comments
 
-Posts.retrievePost()
+Comments.retrieveComments(1)
