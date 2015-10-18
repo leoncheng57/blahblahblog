@@ -1,6 +1,10 @@
 from flask import Flask, render_template, session, request
+import sqlite3
 
 app = Flask(__name__)
+
+
+conn = sqlite3.connect("backend.db")
 
 @app.route("/")
 @app.route("/home")
