@@ -18,5 +18,5 @@ def retrievePost():
     c = conn.cursor()
     c.execute('SELECT * FROM posts')
     posts = c.fetchall()
-    print(posts)
+    return posts
 
