@@ -1,16 +1,23 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template,request, session,redirect, url_for
 import sqlite3
+import csv
+import utils
 
 app = Flask(__name__)
 
 
-conn = sqlite3.connect("backend.db")
+conn = sqlite3.connect("backend")
+c = conn.cursor()
 
-@app.route("/")
-@app.route("/home")
+@app.route("/", methods=["GET","POST"])
+@app.route("/home", methods=["GET","POST"])
 
 def home():
     return render_template("home.html")
+    if request.method == "GET":
+    	return(render_template("home.html"))
+    else:
+    	post = request.
 
 @app.route("/login")
 def login():
