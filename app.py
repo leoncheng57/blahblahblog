@@ -14,10 +14,12 @@ c = conn.cursor()
 
 def home():
     return render_template("home.html")
-    if request.method == "GET":
+    if request.method == "POST":
     	return(render_template("home.html"))
     else:
-    	post = request.
+
+    	post = request.form['post']
+    	utils.add_post("r", post, 4, 4, "a")
 
 @app.route("/login")
 def login():
