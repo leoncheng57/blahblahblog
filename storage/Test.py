@@ -1,5 +1,3 @@
-import Login
+import Posts
 
-Login.Login('serenachan','chooseanything')
-Login.Login('serenachan','chooseanythign')
-
+Posts.retrievePost()
