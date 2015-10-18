@@ -1,3 +1,4 @@
-import Register
+import Login
 
-Register.Register('Serena', 'chooseanything', 1)
+Login.Login('serenachan','chooseanything')
+Login.Login('peterstrbik', 'helpme')

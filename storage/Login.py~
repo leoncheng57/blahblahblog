@@ -1,0 +1,20 @@
+import sqlite3
+
+def Login(username, password):
+    conn = sqlite3.connect("backend")
+    c = conn.cursor()
+    uname = username
+    pword = password
+    params = (uname, pword)
+    c.execute('SELECT * FROM users WHERE username=? and password=?', params)
+    check = c.fetchall()
+    correct_login(check)
+
+
+def correct_login(blah):
+    if blah:
+        print("Logged IN")
+        return True
+    else:
+        print("INCORRECT")
+        return False
