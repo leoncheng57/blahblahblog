@@ -34,7 +34,7 @@ A very bland blog. (a.k.a. Spreddit)
  
  The user interface was designed with the use of Bootstrap; all backend and middleware code is original and manually typed.
  
- ## Possible future plans:
+## Possible future plans:
  -Add profile pictures?
  -Add ability to delete comments?
  -Implement a point system for upvoting/downvoting posts and comments that tracks whether a user has already voted on a particular post or comment
