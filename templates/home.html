@@ -22,18 +22,18 @@
 	  
 	  <div>
 	    <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="/home">Home</a></li>
               {% if LOGGEDIN %}
 			  <li><a href="/myaccount">My Account</a></li>
               {% endif %}
 			  <li><a href="/about">About</a></li> 
 	    </ul>
 
-	    <form action="" class="navbar-form navbar-right">
+	    <form action="" class="navbar-form navbar-right" method="POST">
 	      <div class="input-group">
-		<input type="Search" placeholder="Search..." class="form-control" />
+		<input type="Search" name="query" placeholder="Search..." class="form-control" />
 		<div class="input-group-btn">
-		  <button class="btn btn-info">
+		  <button class="btn btn-info" name="search">
 		    <span class="glyphicon glyphicon-search"></span>
 		  </button>
 		</div>
@@ -65,7 +65,7 @@
 	<form method="POST" role="form">
 		<textarea type="text" name="title" class="form-control custom-control" rows="1" placeholder="Title" style="resize:none"></textarea>     
       	<textarea type="text" name="cont" class="form-control custom-control" rows="3" placeholder="Post content" style="resize:none"></textarea>
-      	<input type="submit" class="btn btn-info" name="submitpost" value="Spread the News!">  
+      	<input type="submit" class="btn btn-info" name="submitpost" value="Spread the news!">  
     
 	</form>
 

@@ -22,7 +22,27 @@ def home():
         if len(Comments.retrieveComments(i[2])) != 0:
             coms.append(Comments.retrieveComments(i[2]))
     if request.method == "POST":
-        if "loggedin" not in session or session["loggedin"] == False:
+        #if doing a search
+        if 'search' in request.form:
+            postswithquery = []
+            for i in Posts.retrievePost():
+                if request.form['query'] in i[0] or request.form['query'] in i[1]:
+                    postswithquery.append(i)
+            for z in coms:
+                for x in z:
+                    if request.form['query'] in x[1]:
+                        tempbool = True
+                        #checks if the post the comment belongs to has already independently been added to posts.
+                        for a in postswithquery:
+                            if a[2] == x[0]:
+                                tempbool = False
+                        if(tempbool):
+                            for i in Posts.retrievePost():
+                                if i[2] == x[0]:
+                                    postswithquery.append(i)
+            return render_template("searchresults.html", LOGGEDIN = session['user'], POSTS = postswithquery, COMMENTS = coms, QUERY = request.form['query'])
+        #all other POST requests require a login.
+        elif "loggedin" not in session or session["loggedin"] == False:
             return redirect(url_for("home"))
         else:
             if 'submitcomment' in request.form:
@@ -69,8 +89,7 @@ def login():
             session['user'] = uname
             return redirect(url_for("home"))
         else:
-            return render_template("login.html", NOTLOGGEDIN = "Error: Wrong username or password.")
-
+            return render_template("login.html", NOTLOGGEDIN = "Error: Wrong username or password.")  
 
 @app.route("/logout")
 def logout():
