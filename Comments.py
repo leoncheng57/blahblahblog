@@ -1,12 +1,13 @@
 import sqlite3
+import time
 
-def makeComment(ID, body, points, date, uname):
+def makeComment(ID, body, uname):
     conn = sqlite3.connect("backend")
     c = conn.cursor()
     I = ID
     B = body
-    P = points
-    D = date
+    P = 0
+    D = time.strftime("%x %X")
     U = uname
     params = (I, B, P, D, U)
     c.execute("INSERT INTO comments VALUES(?,?,?,?,?)", params)

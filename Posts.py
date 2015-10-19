@@ -1,13 +1,14 @@
 import sqlite3
+import time
 
-def makePost(title, body, date, uname):
+def makePost(title, body, uname):
     conn = sqlite3.connect("backend")
     c = conn.cursor()
     T = title
     B = body
     I = getNextPostID()
     P = 0
-    D = date
+    D = time.strftime("%x %X")
     U = uname
     params = (T, B, I, P, D, U)
     c.execute("INSERT INTO users VALUES(?,?,?,?,?,?)", params)
