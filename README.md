@@ -20,6 +20,7 @@ A very bland blog. (a.k.a. Spreddit)
  - [X] Basic functionality
  - [X] Extras: User registration
  - [X] Extras: Deleting posts
+ - [X] Extras: Searching for a phrase in posts and comments
 
  
 ## How to use:
