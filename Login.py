@@ -8,7 +8,7 @@ def Login(username, password):
     params = (uname, pword)
     c.execute('SELECT * FROM users WHERE username=? and password=?', params)
     check = c.fetchall()
-    correct_login(check)
+    return correct_login(check)
 
 
 def correct_login(blah):

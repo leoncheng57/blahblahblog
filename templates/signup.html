@@ -12,25 +12,27 @@
 
     <div class="row">
       <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-	<form role="form">
+	<form role="form" method="POST">
 	  <h2><center>Sign-Up</center></h2>
 	  <hr class="colorgraph">
 
 	  <div class="form-group">
-	    <input type="text" name="display_name" id="display_name" class="form-control input-lg" placeholder="Username" tabindex="3">
+	    <input type="text" name="display_name" class="form-control input-lg" placeholder="Username" tabindex="3">
 	  </div>
 	  <div class="row">
 	    <div class="col-xs-6 col-sm-6 col-md-6">
 	      <div class="form-group">
-		<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="5">
+		<input type="password" name="pass" class="form-control input-lg" placeholder="Password" tabindex="5">
 	      </div>
 	    </div>
 	    <div class="col-xs-6 col-sm-6 col-md-6">
 	      <div class="form-group">
-		<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="6">
+		<input type="password" name="confirmpass" class="form-control input-lg" placeholder="Confirm Password" tabindex="6">
 	      </div>
 	    </div>
 	  </div>
+	  
+	  <!-- 
 	  <div class="row">
 	    <div class="col-xs-3 col-sm-3 col-md-3">
 	      <span class="button-checkbox">
@@ -42,16 +44,16 @@
 	      By clicking <strong class="label label-primary">Register</strong>, you agree to the <a href="/terms" data-toggle="modal" data-target="#t_and_c_m">Terms and Conditions</a> set out by this site.
 	    </div>
 	  </div>
-	  
+	  -->
 	  <hr class="colorgraph">
 	  <div class="form-group">
-	    <input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7">
+	    <input type="submit" name="button" "value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7">
 	  
 	  </div>
 	</form>
       </div>
     </div>
-    <!-- Modal -->
+    <!-- Modal 
     <div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
 	<div class="modal-content">
@@ -65,5 +67,14 @@
 	</div>
       </div>
     </div>
+	Modal -->
   </div>
+  {% if NOTLOGGEDIN %}
+  <center>
+  <h1> 
+  {{NOTLOGGEDIN}}
+  </h1>
+  </center>
+  {% endif %}
+  
 </html>

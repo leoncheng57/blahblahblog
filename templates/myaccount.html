@@ -10,19 +10,20 @@
   </head>
 
   <body>
-
     <div class="container">
-      <h1>My Account</h1>
+      <img class="img-responsive center-block"
+                             src="http://i.imgur.com/hv1Da5q.png"
+                             alt="Imgur is down so our banner is temporarily kill."
+                             width="70%"
+                             height="70%">
 
       <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
-	  <div class="navbar-header">
-	    <a class="navbar-brand" href="#">WebsiteName</a>
-	  </div>
+	  
 	  <div>
 	    <ul class="nav navbar-nav">
               <li><a href="/home">Home</a></li>
-              <li class="active"><a href="#">My Account</a></li>
+              <li class="active"><a href="/myaccount">My Account</a></li>
               <li><a href="/about">About</a></li> 
 	    </ul>
 
@@ -37,10 +38,17 @@
 	      </div>
 	    </form>
 	    
+	    {% if LOGGEDIN %}
+		<ul class="nav navbar-nav navbar-right">
+              <li><a href="/myaccount"><span class="glyphicon glyphicon-user"></span> &nbsp;Hello, {{LOGGEDIN}}!</a></li>
+			  <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+	    </ul>
+		{% else %}
 	    <ul class="nav navbar-nav navbar-right">
               <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-              <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+              <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
 	    </ul>
+		{% endif %}
 	  </div>
 	</div>
       </nav>
