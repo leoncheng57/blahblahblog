@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def Register(username, password, ID):
+def Register(username, password):
     if checkAvail(username):
         conn = sqlite3.connect("backend")
         c = conn.cursor()
