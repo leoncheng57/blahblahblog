@@ -1,3 +1,3 @@
-import Comments
+import Register
 
-Comments.retrieveComments(1)
+Register.checkAvail('serenachan')
