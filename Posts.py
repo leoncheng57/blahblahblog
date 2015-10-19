@@ -11,14 +11,14 @@ def makePost(title, body, uname):
     D = time.strftime("%x %X")
     U = uname
     params = (T, B, I, P, D, U)
-    c.execute("INSERT INTO users VALUES(?,?,?,?,?,?)", params)
+    c.execute("INSERT INTO posts VALUES(?,?,?,?,?,?)", params)
     conn.commit()
 
 def retrievePost():
     conn = sqlite3.connect("backend")
     c = conn.cursor()
     c.execute('SELECT * FROM posts')
-    posts = c.fetchall()
+    posts = c.fetchall()[::-1]
     return posts
 
 def getNextPostID():
@@ -28,3 +28,11 @@ def getNextPostID():
     ALL = c.fetchall()
     last = ALL[-1][2] + 1
     return last
+	
+def deletePost(ID):
+    conn = sqlite3.connect("backend")
+    c = conn.cursor()
+    #query = "DELETE FROM posts WHERE ID='" + ID + "';"
+    c.execute("DELETE FROM posts WHERE ID=?", (ID,))
+    conn.commit()
+    conn.close()

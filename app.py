@@ -4,6 +4,8 @@ import csv
 import utils
 import Login
 import Register
+import Posts
+import Comments
 
 app = Flask(__name__)
 
@@ -15,18 +17,42 @@ c = conn.cursor()
 
 @app.route("/home", methods=["GET","POST"])
 def home():
-    if "loggedin" not in session:
-        session["loggedin"] = False
-    if 'loggedin' in session and 'user' in session and session["loggedin"]:
-		return render_template("home.html", LOGGEDIN = session['user'])
-    else:
-		return(render_template("home.html"))
+    coms = []
+    for i in Posts.retrievePost():
+        if len(Comments.retrieveComments(i[2])) != 0:
+            coms.append(Comments.retrieveComments(i[2]))
     if request.method == "POST":
-    	return(render_template("home.html"))
+        if "loggedin" not in session or session["loggedin"] == False:
+            return redirect(url_for("home"))
+        else:
+            if 'submitcomment' in request.form:
+                for i in Posts.retrievePost():
+                    if str(i[2]) in request.form:
+                        Comments.makeComment(i[2], request.form[str(i[2])], session['user']) 
+                        return redirect(url_for("home"))
+                    #return render_template("home.html", LOGGEDIN = value, POSTS = Posts.retrievePost())
+                return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
+            elif 'submitpost' not in request.form:
+                for i in Posts.retrievePost():
+                    if str(i[2]) in request.form:
+                        Posts.deletePost(i[2])
+                        Comments.deleteComments(i[2])
+                        return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
+                    #return render_template("home.html", LOGGEDIN = value, POSTS = Posts.retrievePost())
+                return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
+            else:
+                title = request.form['title']
+                cont = request.form['cont']
+                button = request.form['submitpost']
+    	        Posts.makePost(title, cont, session['user'])
+                return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
     else:
-
-    	post = request.form['post']
-    	utils.add_post("r", post, 4, 4, "a")
+        if "loggedin" not in session:
+            session["loggedin"] = False
+        if 'loggedin' in session and 'user' in session and session["loggedin"]:
+		    return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
+        else:
+		    return render_template("home.html", POSTS = Posts.retrievePost(), COMMENTS = coms)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

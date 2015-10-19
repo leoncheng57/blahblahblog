@@ -63,11 +63,39 @@
 --> 
 <h2> Make a new post: </h2>
 	<form method="POST" role="form">
-		<textarea class="form-control custom-control" rows="1" placeholder="Title" style="resize:none"></textarea>     
-      	<textarea class="form-control custom-control" rows="3" placeholder="Post content" style="resize:none"></textarea>
-      	<span class="input-group-addon btn btn-primary">Spread the news!</span>   
+		<textarea type="text" name="title" class="form-control custom-control" rows="1" placeholder="Title" style="resize:none"></textarea>     
+      	<textarea type="text" name="cont" class="form-control custom-control" rows="3" placeholder="Post content" style="resize:none"></textarea>
+      	<input type="submit" class="btn btn-info" name="submitpost" value="Spread the News!">  
     
 	</form>
-  </body>    
 
+	{% for i in POSTS: %}
+	<b><h1> {{i[0]}} </h1></b> Posted by {{i[5]}} on {{i[4]}}<h3> {{i[1]}} </h3> 
+	{% if LOGGEDIN == i[5]%}
+	<form method="POST" role="form">
+	<input type="submit" class="button" name="{{i[2]}}" value="Delete this post.">
+	</form>
+	{% endif %}
+	<br>
+	{% for z in COMMENTS: %}
+		{% if z[0][0] == i[2] %} <!--if this set's comment IDs match this post ID--> 
+			{% for x in z %}
+				&nbsp;&nbsp;&nbsp;&nbsp;{{x[3]}}, &nbsp;{{x[4]}} commented: {{x[1]}} <br>
+			{% endfor %}
+		{% endif %}
+	{% endfor %}
+	<br>
+	<form method="POST" role="form">
+	<div class="col-xs-4">
+	<textarea type="text" name="{{i[2]}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
+	<input type="submit" class="button" name="submitcomment" value="Comment.">
+	</div>
+	</form>
+	<br>
+	<br>
+	<br>
+	<hr>
+	{% endfor %}
+	
+	</body>   
 </html>

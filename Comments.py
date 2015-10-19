@@ -20,5 +20,11 @@ def retrieveComments(ID):
     I = ID
     q = TEMPLATE%I
     c.execute(q)
-    comments = c.fetchall()
-    print(comments)
+    return c.fetchall()
+    
+def deleteComments(ID):
+    conn = sqlite3.connect("backend")
+    c = conn.cursor()
+    c.execute("DELETE FROM comments WHERE postID=?", (ID,))
+    conn.commit()
+    conn.close()
