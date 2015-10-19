@@ -22,7 +22,7 @@ A very bland blog. (a.k.a. Spreddit)
  - [X] Extras: Deleting posts
 
  
- ##How to use:
+## How to use:
  Mostly self-explanatory.
  You can create a new account by clicking "Sign up"
  Once you successfully create a new account, you will be redirected to the Login page.
