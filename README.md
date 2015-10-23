@@ -3,13 +3,21 @@ For Softdev Bloginator assignment.
 A very bland blog. (a.k.a. Spreddit)
 
 
-## Team
+## Original Team
 |      **Member**      |            **Role**            |
 |:--------------------:|:------------------------------:|
 |Krzysztof Hochlewicz  | Leader, Middleware             |
 |Peter Strbik          | Backend                        |
 |Andrew Kratsios       | Middleware                     |
 |Serena Chan           | UX                             |
+
+## Refactoring Team
+|      **Member**      |            **Role**            |
+|:--------------------:|:------------------------------:|
+|Angela Chan           | Leader                         |
+|Leon Cheng            | Backend                        |
+|Amanda Chiu           | UX                             |
+|Eric Stringham        | Middleware                     |
 
 
 ## Checklist
