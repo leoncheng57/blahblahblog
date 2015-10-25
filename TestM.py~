@@ -1,0 +1,26 @@
+import pymongo 
+from pymongo import MongoClient
+import CommentsM
+
+
+
+
+client = MongoClient()
+db = client.test_database
+posts = db.posts
+
+print "  POSTS: " + str(posts)
+for post in posts.find():
+    posts.remove()
+
+
+#NOTE: Insert commands to test in here
+CommentsM.makeComment(42,"this is the body","this is the username")
+CommentsM.makeComment(42,"this is the body","this is the username")
+
+
+
+
+for post in posts.find({"_id":False}):
+    print post
+
