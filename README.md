@@ -22,13 +22,8 @@ A very bland blog. (a.k.a. Spreddit)
 
 ## Checklist
 
- - [X] Backend
- - [X] UX
- - [X] Middleware 
- - [X] Basic functionality
- - [X] Extras: User registration
- - [X] Extras: Deleting posts
- - [X] Extras: Searching for a phrase in posts and comments
+ - [ ] encrypt the password
+ - [ ] change all instances of getNextID() to either row or primary key (so it is automatic) 
 
  
 ## How to use:
@@ -44,7 +39,5 @@ A very bland blog. (a.k.a. Spreddit)
  The user interface was designed with the use of Bootstrap; all backend and middleware code is original and manually typed.
  
 ## Possible future plans:
- Add profile pictures?
- Add ability to delete comments?
- Implement a point system for upvoting/downvoting posts and comments that tracks whether a user has already voted on a particular post or comment.
- For the search feature, make the query show up in bold in all instances of it in the posts/comments that contain it.
+   - [ ] Implement a point system for upvoting/downvoting posts and comments that tracks whether a user has already voted on a particular post or comment.
+   - [ ] For the search feature, make the query show up in bold in all instances of it in the posts/comments that contain it.

@@ -26,7 +26,7 @@ def getNextPostID():
     c = conn.cursor()
     c.execute("SELECT * FROM posts ORDER BY ID ASC")
     ALL = c.fetchall()
-    last = ALL[-1][2] + 1
+    last = ALL[-1][2] + 1 #go to last entry, second element of list, then add 1
     return last
 	
 def deletePost(ID):
