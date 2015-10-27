@@ -8,9 +8,6 @@ db = client.test_database
 posts = db.posts
 
 def makeComment(ID, body, uname):
-    client = MongoClient()
-    db = client.test_database
-    posts = db.posts
     I = ID
     B = body
     P = 0
@@ -25,16 +22,10 @@ def makeComment(ID, body, uname):
 
 #TODO: Fix this command so that it retrieves all comments that have postID==ID, not just one
 def retrieveComments(ID):
-    client = MongoClient()
-    db = client.test_database
-    posts = db.posts
     result = posts.find({"postID":ID})
     return result
     #TODO: What does this return? A dictionary i think. What is it supposed to return?
 
 def deleteComments(ID):
-    client = MongoClient()
-    db = client.test_database
-    posts = db.posts
     posts.remove({"postID":ID})
     
