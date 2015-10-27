@@ -2,7 +2,6 @@
 
 {% block contents %}
   
-  <body>
     <div class="container">
       <img class="img-responsive center-block"
                              src="http://i.imgur.com/hv1Da5q.png"
@@ -89,7 +88,6 @@
 	<br>
 	<hr>
 	{% endfor %}
-	
-	</body>   
+	  
 
 {% endblock  %}

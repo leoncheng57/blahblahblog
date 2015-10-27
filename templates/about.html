@@ -1,15 +1,7 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html lang="en">
-  <head>
-    
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  </head>
+{% block contents %}
 
-  <body>
     <div class="container">
       <img class="img-responsive center-block"
                              src="http://i.imgur.com/hv1Da5q.png"
@@ -54,7 +46,6 @@
 	  There is a search box on the homepage that lets you retrieve all posts and comments that contain a certain phrase. <br><br>
 	  Go forth, and Spreddit!
 	  </h2>
-  </body>
 
 
-</html>
+{% endblock %}
