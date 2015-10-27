@@ -4,8 +4,8 @@ import datetime
 import time
 
 client = MongoClient()
-db = client.posts
-posts = db.posts
+db = client.comments
+comments = db.comments
 
 def makeComment(ID, body, uname):
     I = ID
@@ -13,19 +13,19 @@ def makeComment(ID, body, uname):
     P = 0
     D = time.strftime("%x %X")
     U = uname
-    post = {"postID":I,
+    comment = {"commentID":I,
             "body":B,
             "points": P,
             "date":D,
             "user":U}
-    posts.insert(post)
+    comments.insert(comment)
 
 
 def retrieveComments(ID):
-    result = posts.find({"postID":ID})
+    result = comments.find({"commentID":ID})
     return result
 
 
 def deleteComments(ID):
-    posts.remove({"postID":ID})
+    comments.remove({"commentID":ID})
     

@@ -3,12 +3,12 @@ from pymongo import MongoClient
 import CommentsM
 
 client = MongoClient()
-db = client.test_database
-posts = db.posts
+db = client.comments
+comments = db.comments
 
-print "--POSTS: " + str(posts)
-for post in posts.find():
-    posts.remove()
+print "--COMMENTS: " + str(comments)
+for comment in comments.find():
+    comments.remove()
 print
 
 #NOTE: Insert commands to test in starting here...
@@ -28,7 +28,7 @@ print "--REMOVING COMMENTS..."
 CommentsM.deleteComments(42)
 print
 
-print "--PRINTING OUT EVERYTHING IN POSTS: "
-for post in posts.find():
-    print post
+print "--PRINTING OUT EVERYTHING IN COMMENTS: "
+for comment in comments.find():
+    print comment
 print
