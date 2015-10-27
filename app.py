@@ -1,36 +1,28 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import sqlite3
-import csv
-import utils
-import Login
-import Register
-import Posts
-import Comments
+import Login, Register, Posts, Comments, utils
+import sqlite3, csv
 
 app = Flask(__name__)
 
-
-conn = sqlite3.connect("backend")
-c = conn.cursor()
-
 @app.route("/", methods=["GET","POST"])
-
-@app.route("/home", methods=["GET","POST"])
+@app.route("/home/", methods=["GET","POST"])
 def home():
-    coms = []
-    for i in Posts.retrievePost():
-        if len(Comments.retrieveComments(i[2])) != 0:
-            coms.append(Comments.retrieveComments(i[2]))
-    if request.method == "POST":
-        #if doing a search
-        if 'search' in request.form:
-            postswithquery = []
-            for i in Posts.retrievePost():
-                if request.form['query'] in i[0] or request.form['query'] in i[1]:
-                    postswithquery.append(i)
-            for z in coms:
-                for x in z:
-                    if request.form['query'] in x[1]:
+    coms = [] # Initialize comments array
+    for i in Posts.retrievePost(): # For every post in listing...
+        if len(Comments.retrieveComments(i[2])) != 0: # If retrieved comments for Post[2] != 0... (what?)
+            coms.append(Comments.retrieveComments(i[2])) # Add retrieved comments for Post[2] to comments array
+    if request.method == "POST": # If the request method is post...
+        #############################################
+        ### THIS TO BE MOVED TO SEPARATE FUNCTION ###
+        #############################################
+        if 'search' in request.form: # If 'search' is found in the form request... (if doing search)
+            postswithquery = [] # Initialize queried posts array
+            for i in Posts.retrievePost(): # For every post in listing...
+                if request.form['query'] in i[0] or request.form['query'] in i[1]: # If the request form query is in Post[0] or Post[1]... (title and contents?)
+                    postswithquery.append(i) # Add Post to queried posts array
+            for z in coms: # For comment in comments array...
+                for x in z: # For comment in comment grouping... (?)
+                    if request.form['query'] in x[1]: # If the query is in the comment...
                         tempbool = True
                         #checks if the post the comment belongs to has already independently been added to posts.
                         for a in postswithquery:
@@ -41,8 +33,11 @@ def home():
                                 if i[2] == x[0]:
                                     postswithquery.append(i)
             return render_template("searchresults.html", LOGGEDIN = session['user'], POSTS = postswithquery, COMMENTS = coms, QUERY = request.form['query'])
+        #############################################
+        ###               ENDBLOCK                ###
+        #############################################
         #all other POST requests require a login.
-        elif "loggedin" not in session or session["loggedin"] == False:
+        if "loggedin" not in session or session["loggedin"] == False:
             return redirect(url_for("home"))
         else:
             if 'submitcomment' in request.form:
@@ -74,7 +69,7 @@ def home():
         else:
 		    return render_template("home.html", POSTS = Posts.retrievePost(), COMMENTS = coms)
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login/", methods=['GET', 'POST'])
 def login():
     if "loggedin" not in session:
         session["loggedin"] = False
@@ -91,16 +86,16 @@ def login():
         else:
             return render_template("login.html", NOTLOGGEDIN = "Error: Wrong username or password.")  
 
-@app.route("/logout")
+@app.route("/logout/")
 def logout():
     session["loggedin"] = False
     return redirect(url_for("home"))
 			
-@app.route("/terms")
+@app.route("/terms/")
 def terms():
     return render_template("terms.html")
 
-@app.route("/signup", methods=['GET', 'POST'])
+@app.route("/signup/", methods=['GET', 'POST'])
 def signup():
     if request.method=="GET":
         return render_template("signup.html")
@@ -118,14 +113,14 @@ def signup():
             else:
                 return render_template("signup.html", NOTLOGGEDIN = "Error: Username already exists")
 
-@app.route("/myaccount")
+@app.route("/myaccount/")
 def myaccount():
     if 'loggedin' in session and 'user' in session and session["loggedin"]:
 		return render_template("myaccount.html", LOGGEDIN = session['user'])
     else:
 		return(render_template("myaccount.html"))
 		
-@app.route("/about")
+@app.route("/about/")
 def about():
     if 'loggedin' in session and 'user' in session and session["loggedin"]:
 		return render_template("about.html", LOGGEDIN = session['user'])
