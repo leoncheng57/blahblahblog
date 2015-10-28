@@ -7,67 +7,98 @@ app = Flask(__name__)
 @app.route("/", methods=["GET","POST"])
 @app.route("/home/", methods=["GET","POST"])
 def home():
-    coms = [] # Initialize comments array
-    for i in Posts.retrievePost(): # For every post in listing...
-        if len(Comments.retrieveComments(i[2])) != 0: # If retrieved comments for Post[2] != 0... (what?)
-            coms.append(Comments.retrieveComments(i[2])) # Add retrieved comments for Post[2] to comments array
-    if request.method == "POST": # If the request method is post...
+    comments = []
+    for post in Posts.retrievePost():
+        if len(Comments.retrieveComments(post[2])) != 0: # what is post[2]? 
+            comments.append(Comments.retrieveComments(post[2]))
+    if request.method == "POST":
         #############################################
         ### THIS TO BE MOVED TO SEPARATE FUNCTION ###
         #############################################
-        if 'search' in request.form: # If 'search' is found in the form request... (if doing search)
-            postswithquery = [] # Initialize queried posts array
-            for i in Posts.retrievePost(): # For every post in listing...
-                if request.form['query'] in i[0] or request.form['query'] in i[1]: # If the request form query is in Post[0] or Post[1]... (title and contents?)
-                    postswithquery.append(i) # Add Post to queried posts array
-            for z in coms: # For comment in comments array...
-                for x in z: # For comment in comment grouping... (?)
-                    if request.form['query'] in x[1]: # If the query is in the comment...
-                        tempbool = True
+        # And maybe add an author search too...
+        if 'search' in request.form: # This statement could be optimized...
+            posts_with_query = []
+            for post in Posts.retrievePost():
+                if request.form['query'] in post[0] or request.form['query'] in post[1]:
+                    # If the request form query is in post[0] or post[1]... (title and contents?)
+                    posts_with_query.append(post)
+            for comment_group in comments:
+                for comment in comment_group: # At the moment, I can only assume this is what is meant
+                    if request.form['query'] in comment[1]:
+                        is_unique_post = True
                         #checks if the post the comment belongs to has already independently been added to posts.
-                        for a in postswithquery:
-                            if a[2] == x[0]:
-                                tempbool = False
-                        if(tempbool):
-                            for i in Posts.retrievePost():
-                                if i[2] == x[0]:
-                                    postswithquery.append(i)
-            return render_template("searchresults.html", LOGGEDIN = session['user'], POSTS = postswithquery, COMMENTS = coms, QUERY = request.form['query'])
+                        for post in posts_with_query:
+                            if post[2] == comment[0]:
+                                is_unique_post = False
+                        if(is_unique_post):
+                            for post in Posts.retrievePost():
+                                if post[2] == comment[0]:
+                                    posts_with_query.append(post)
+            return render_template(
+                "searchresults.html",
+                LOGGEDIN = session['user'], # <-- Gotta fix this. Session parameter doesn't exist until log in!
+                POSTS = posts_with_query,
+                COMMENTS = comments,
+                QUERY = request.form['query'])
         #############################################
         ###               ENDBLOCK                ###
         #############################################
         #all other POST requests require a login.
         if "loggedin" not in session or session["loggedin"] == False:
             return redirect(url_for("home"))
+        # Short-circuit evaluation for the win!
+        if 'submitcomment' in request.form: # Really, the use of the 'in' keyword here bugs me...
+            for post in Posts.retrievePost():
+                if str(post[2]) in request.form:
+                    Comments.makeComment(
+                        post[2],
+                        request.form[str(post[2])],
+                        session['user']) 
+                    return redirect(url_for("home"))
+            return render_template(
+                "home.html",
+                LOGGEDIN = session['user'],
+                POSTS = Posts.retrievePost(),
+                COMMENTS = comments)
+        if 'submitpost' not in request.form: # Well that's one [very backwards] way of doing it...
+            for post in Posts.retrievePost():
+                if str(post[2]) in request.form:
+                    Posts.deletePost(post[2])
+                    Comments.deleteComments(post[2]) # This should probably be built in to deletePost()
+                    return render_template(
+                        "home.html",
+                        LOGGEDIN = session['user'],
+                        POSTS = Posts.retrievePost(),
+                        COMMENTS = comments)
+            return render_template(
+                "home.html",
+                LOGGEDIN = session['user'],
+                POSTS = Posts.retrievePost(),
+                COMMENTS = comments) # Just noticed, this is not DRY in the *least*.
         else:
-            if 'submitcomment' in request.form:
-                for i in Posts.retrievePost():
-                    if str(i[2]) in request.form:
-                        Comments.makeComment(i[2], request.form[str(i[2])], session['user']) 
-                        return redirect(url_for("home"))
-                    #return render_template("home.html", LOGGEDIN = value, POSTS = Posts.retrievePost())
-                return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
-            elif 'submitpost' not in request.form:
-                for i in Posts.retrievePost():
-                    if str(i[2]) in request.form:
-                        Posts.deletePost(i[2])
-                        Comments.deleteComments(i[2])
-                        return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
-                    #return render_template("home.html", LOGGEDIN = value, POSTS = Posts.retrievePost())
-                return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
-            else:
-                title = request.form['title']
-                cont = request.form['cont']
-                button = request.form['submitpost']
-    	        Posts.makePost(title, cont, session['user'])
-                return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
+            title = request.form['title']
+            cont = request.form['cont']
+            button = request.form['submitpost']
+            Posts.makePost(title, cont, session['user'])
+            return render_template(
+                "home.html",
+                LOGGEDIN = session['user'],
+                POSTS = Posts.retrievePost(),
+                COMMENTS = comments)
     else:
         if "loggedin" not in session:
             session["loggedin"] = False
         if 'loggedin' in session and 'user' in session and session["loggedin"]:
-		    return render_template("home.html", LOGGEDIN = session['user'], POSTS = Posts.retrievePost(), COMMENTS = coms)
+		    return render_template(
+		        "home.html",
+		        LOGGEDIN = session['user'],
+		        POSTS = Posts.retrievePost(),
+		        COMMENTS = comments)
         else:
-		    return render_template("home.html", POSTS = Posts.retrievePost(), COMMENTS = coms)
+		    return render_template(
+		        "home.html",
+		        POSTS = Posts.retrievePost(),
+		        COMMENTS = comments)
 
 @app.route("/login/", methods=['GET', 'POST'])
 def login():
