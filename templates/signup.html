@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 
+{% block navbar %}
+<li><a href="/home">Home</a></li>
+{% if LOGGEDIN %}
+<li><a href="/myaccount">My Account</a></li>
+{% endif %}
+<li><a href="/about">About</a></li> 
+</ul>
+{% endblock %}
+
 {% block contents %}
 
   <div class="container">
@@ -45,9 +54,6 @@
 	  
 	  </div>
 	</form>
-	<div>
-	  <button class="btn btn-primary btn-block btn-lg" href="/home">Home</button>
-	</div>
       </div>
     </div>
     <!-- Modal 

@@ -2,6 +2,11 @@
 
 {% block navbar %}
 <li class="active"><a href="/home">Home</a></li>
+{% if LOGGEDIN %}
+<li><a href="/myaccount">My Account</a></li>
+{% endif %}
+<li><a href="/about">About</a></li> 
+</ul>
 {% endblock %}
 {% block contents %}
 
