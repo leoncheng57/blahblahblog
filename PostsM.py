@@ -1,5 +1,5 @@
 import pymongo
-import pymongo from MongoClient
+from pymongo import MongoClient
 import datetime
 import time
 
@@ -22,3 +22,12 @@ def makePost(title, body, uname):
             "date":D,
             "user":U}
     posts.insert(post)
+
+def retreivePost():
+    result = posts.find();
+    return result;
+
+def getNextPostID():
+    #TODO: Find a way to find the (max post id + 1) in mongo
+
+    

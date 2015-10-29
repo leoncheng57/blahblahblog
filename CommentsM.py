@@ -19,7 +19,7 @@ def makeComment(ID, body, uname):
             "date":D,
             "user":U}
     comments.insert(comment)
-
+   
 
 def retrieveComments(ID):
     result = comments.find({"commentID":ID})
