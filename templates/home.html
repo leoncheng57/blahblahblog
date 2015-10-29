@@ -1,38 +1,9 @@
 {% extends "base.html" %}
 
-{% block contents %}
+{% block navbar %}
 <li class="active"><a href="/home">Home</a></li>
-{% if LOGGEDIN %}
-<li><a href="/myaccount">My Account</a></li>
-{% endif %}
-<li><a href="/about">About</a></li> 
-</ul>
-
-<form action="" class="navbar-form navbar-right" method="POST">
-  <div class="input-group">
-    <input type="Search" name="query" placeholder="Search..." class="form-control" />
-    <div class="input-group-btn">
-      <button class="btn btn-info" name="search">
-	<span class="glyphicon glyphicon-search"></span>
-      </button>
-    </div>
-  </div>
-</form>
-{% if LOGGEDIN %}
-<ul class="nav navbar-nav navbar-right">
-  <li><a href="/myaccount"><span class="glyphicon glyphicon-user"></span> &nbsp;Hello, {{LOGGEDIN}}!</a></li>
-  <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-</ul>
-{% else %}
-<ul class="nav navbar-nav navbar-right">
-  <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-  <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
-</ul>
-{% endif %}
-
-</div>
-</div>
-</nav>
+{% endblock %}
+{% block contents %}
 
 <!--
     <div class="input-group margin-bottom-sm">
