@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import Login, Register, Posts, Comments, utils
+import Login, Register, Posts, Comments
 import sqlite3, csv
 
 app = Flask(__name__)
@@ -7,15 +7,22 @@ app = Flask(__name__)
 @app.route("/", methods=["GET","POST"])
 @app.route("/home/", methods=["GET","POST"])
 def home():
-    comments = []
-    for post in Posts.retrievePost():
-        if len(Comments.retrieveComments(post[2])) != 0: # what is post[2]? 
+    # Preliminary sets that I don't like and think should probably be removed.
+    if 'user' not in session:
+        session['user'] = None
+    if "loggedin" not in session:
+        session["loggedin"] = False
+    # End sets.
+    comments = [] # I also don't yet understand the need for distinct POSTS and COMMENTS lists.
+    for post in Posts.retrievePost(): # Comment retrieval.
+        if len(Comments.retrieveComments(post[2])) != 0: 
             comments.append(Comments.retrieveComments(post[2]))
     if request.method == "POST":
         #############################################
         ### THIS TO BE MOVED TO SEPARATE FUNCTION ###
         #############################################
         # And maybe add an author search too...
+        # Actually, how is mongodb's builtin search capabilities?
         if 'search' in request.form: # This statement could be optimized...
             posts_with_query = []
             for post in Posts.retrievePost():
@@ -44,7 +51,7 @@ def home():
         ###               ENDBLOCK                ###
         #############################################
         #all other POST requests require a login.
-        if "loggedin" not in session or session["loggedin"] == False:
+        if session['user'] == None or session["loggedin"] == False:
             return redirect(url_for("home"))
         # Short-circuit evaluation for the win!
         if 'submitcomment' in request.form: # Really, the use of the 'in' keyword here bugs me...
@@ -75,30 +82,28 @@ def home():
                 LOGGEDIN = session['user'],
                 POSTS = Posts.retrievePost(),
                 COMMENTS = comments) # Just noticed, this is not DRY in the *least*.
-        else:
-            title = request.form['title']
-            cont = request.form['cont']
-            button = request.form['submitpost']
-            Posts.makePost(title, cont, session['user'])
-            return render_template(
-                "home.html",
-                LOGGEDIN = session['user'],
-                POSTS = Posts.retrievePost(),
-                COMMENTS = comments)
-    else:
-        if "loggedin" not in session:
-            session["loggedin"] = False
-        if 'loggedin' in session and 'user' in session and session["loggedin"]:
-		    return render_template(
-		        "home.html",
-		        LOGGEDIN = session['user'],
-		        POSTS = Posts.retrievePost(),
-		        COMMENTS = comments)
-        else:
-		    return render_template(
-		        "home.html",
-		        POSTS = Posts.retrievePost(),
-		        COMMENTS = comments)
+        title = request.form['title']
+        cont = request.form['cont']
+        button = request.form['submitpost']
+        Posts.makePost(title, cont, session['user'])
+        return render_template(
+            "home.html",
+            LOGGEDIN = session['user'],
+            POSTS = Posts.retrievePost(),
+            COMMENTS = comments)
+    if session['user'] != None and session["loggedin"]:
+	    return render_template(
+	        "home.html",
+	        LOGGEDIN = session['user'],
+	        POSTS = Posts.retrievePost(),
+	        COMMENTS = comments)
+    # The fact that it's necessary to make this return distinction is a bit weird.
+    # Why don't we let Jinja handle it? Wait... doesn't it already...? Technically?
+    # Ugh -_-
+    return render_template(
+        "home.html",
+        POSTS = Posts.retrievePost(),
+        COMMENTS = comments)
 
 @app.route("/login/", methods=['GET', 'POST'])
 def login():
@@ -120,6 +125,7 @@ def login():
 @app.route("/logout/")
 def logout():
     session["loggedin"] = False
+    session["user"] = None
     return redirect(url_for("home"))
 			
 @app.route("/terms/")
