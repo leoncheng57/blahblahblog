@@ -1,31 +1,29 @@
 {% extends "base.html" %}
 
+
 {% block navbar %}
-<li><a href="/home">Home</a></li>
+  <li><a href="/">Home</a></li>
 {% if LOGGEDIN %}
-<li class="active"><a href="/myaccount">My Account</a></li>
+  <li><a href="/myaccount">My Account</a></li>
 {% endif %}
-<li><a href="/about">About</a></li> 
-</ul>
+  <li class="active"><a href="/about">About</a></li>
 {% endblock %}
+
 
 {% block nav2 %}
-
 {% endblock %}
 
+
 {% block contents %}
-
-<br><br>
-<h2>
-  <center>"Spread your knowledge. Spread it using Spreddit®!" --Socrates, probably. </center>
   <br><br>
-  Spreddit® (in no way a knockoff of Reddit®) is a forum for spreading news.<br><br>
-  You can create an account and make posts, or comment on others' posts.<br><br>
-  You can delete your own posts along with all the comments on them.<br><br>
-  Posts and comments are timestamped; posts appear in order of newest first, while comments are listed in chronological order. <br><br>
-  There is a search box on the homepage that lets you retrieve all posts and comments that contain a certain phrase. <br><br>
-  Go forth, and Spreddit!
-</h2>
-
-
+  <h2>
+    <center>"Spread your knowledge. Spread it using Spreddit®!" --Socrates, probably. </center>
+    <br><br>
+    Spreddit® (in no way a knockoff of Reddit®) is a forum for spreading news.<br><br>
+    You can create an account and make posts, or comment on others' posts.<br><br>
+    You can delete your own posts along with all the comments on them.<br><br>
+    Posts and comments are timestamped; posts appear in order of newest first, while comments are listed in chronological order. <br><br>
+    There is a search box on the homepage that lets you retrieve all posts and comments that contain a certain phrase. <br><br>
+    Go forth, and Spreddit!
+  </h2>
 {% endblock %}

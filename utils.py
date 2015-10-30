@@ -1,8 +1,8 @@
 import Posts
 
-def search(query, comments):
+def search(query, posts, comments):
     posts_with_query = []
-    for post in Posts.retrievePost():
+    for post in posts:
         if query in post[0] or query in post[1]:
             # If the request form query is in post[0] or post[1]... (title and contents?)
             posts_with_query.append(post)
@@ -15,7 +15,7 @@ def search(query, comments):
                     if post[2] == comment[0]:
                         is_unique_post = False
                 if(is_unique_post):
-                    for post in Posts.retrievePost():
+                    for post in posts:
                         if post[2] == comment[0]:
                             posts_with_query.append(post)
     return posts_with_query
