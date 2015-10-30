@@ -28,14 +28,17 @@ def retreivePost():
     return result;
 
 #TODO: Finish writing this function
+#TODO: Cut out all the extraneous debuggnig code when done
 def getNextPostID():
     print "inside getNextPostID"
     ids = []
     for post in posts.find():
-        ids.insert(post["id"])
+        print post
+        ids.insert(0,post["id"])
     if (len(ids)==0):
         return 1
     nextID = max(ids)+1;
+    print "ids: "+str(ids)
     return nextID;
 
         
