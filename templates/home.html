@@ -1,14 +1,12 @@
 {% extends "base.html" %}
 
-
 {% block navbar %}
-  <li class="active"><a href="/">Home</a></li>
+<li class="active"><a href="/">Home</a></li>
 {% if LOGGEDIN %}
-  <li><a href="/myaccount">My Account</a></li>
+<li><a href="/myaccount">My Account</a></li>
 {% endif %}
-  <li><a href="/about">About</a></li>
+<li><a href="/about">About</a></li>
 {% endblock %}
-
 
 {% block contents %}
 
