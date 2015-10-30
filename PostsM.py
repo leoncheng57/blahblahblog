@@ -27,7 +27,18 @@ def retreivePost():
     result = posts.find();
     return result;
 
+#TODO: Finish writing this function
 def getNextPostID():
-    #TODO: Find a way to find the (max post id + 1) in mongo
+    print "inside getNextPostID"
+    ids = []
+    for post in posts.find():
+        ids.insert(post["id"])
+    if (len(ids)==0):
+        return 1
+    nextID = max(ids)+1;
+    return nextID;
+
+        
+    
 
     

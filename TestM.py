@@ -42,5 +42,8 @@ print
 # TESTING POSTS #
 #################
 print "--MAKING POST..."
-#PostsM.makePost("sample title", "sample body", "sample uname");
-
+PostsM.makePost("sample title", "sample body", "sample uname");
+PostsM.makePost("sample title", "sample body", "sample uname");
+PostsM.makePost("sample title", "sample body", "sample uname");
+print "--GETTING NEXT POST ID..."
+PostsM.getNextPostID();
