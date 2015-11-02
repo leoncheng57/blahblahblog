@@ -55,44 +55,37 @@ def home():
 @app.route("/login/", methods=['GET', 'POST'])
 def login():
     check_user()
-    if request.method=='GET':
-        return render_template("accounts.html")
-    username = request.form['user']
-    password = request.form['pass']
-    button = request.form['button']
-    if Login.Login(username, password):
-        session['user'] = username
-        return redirect(url_for("home"))
-    return render_template("accounts.html", NOTLOGGEDIN = "Error: Wrong username or password.")  
+    error = None
+    if request.method == 'POST':
+        if Login.Login(request.form['user'], request.form['pass']):
+            session['user'] = request.form['user']
+            return redirect('/')
+        else:
+            error = "Error: Wrong username or password."
+    return render_template("accounts.html", NOTLOGGEDIN = error)
 
 @app.route("/logout/")
 def logout():
     session['user'] = None
     return redirect('/')
-			
-@app.route("/terms/")
-def terms():
-    check_user()
-    return render_template("terms.html")
 
 @app.route("/signup/", methods=['GET', 'POST'])
 def signup():
     check_user()
-    if request.method=="GET":
-        return render_template("accounts.html", signup = True)
-    if request.form['pass'] != request.form['confirmpass']:
-        return render_template("accounts.html",
-            NOTLOGGEDIN = "Error: Passwords do not match.", signup = True)
-    if len(request.form['user']) < 4 or len(request.form['pass']) < 8:
-        return render_template("accounts.html",
-            NOTLOGGEDIN = "Error: Username must be at least 4 characters and password must be at least 8 characters.", signup = True)
-    username = request.form['user']
-    password = request.form['pass']
-    button = request.form['button']
-    if not Register.Register(username, password):
-        return render_template("accounts.html",
-            NOTLOGGEDIN = "Error: Username already exists.", signup = True)
-    return redirect(url_for('login'))
+    error = None
+    if request.method=="POST":
+        username = request.form['user']
+        password = request.form['pass']
+        if len(username) < 4 or len(password) < 8:
+            error = "Error: Username must be at least 4 characters and password must be at least 8 characters."
+        elif password != request.form['confirmpass']:
+            error = "Error: Passwords do not match."
+        else:
+            if not Register.Register(username, password):
+                error = "Error: Username already exists."
+            else:
+                return redirect(url_for('login'))
+    return render_template("accounts.html", NOTLOGGEDIN = error, signup = True)
 
 @app.route("/myaccount/")
 def myaccount():
