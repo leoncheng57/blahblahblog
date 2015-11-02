@@ -56,14 +56,14 @@ def home():
 def login():
     check_user()
     if request.method=='GET':
-        return render_template("login.html")
+        return render_template("accounts.html")
     username = request.form['user']
     password = request.form['pass']
     button = request.form['button']
     if Login.Login(username, password):
         session['user'] = username
         return redirect(url_for("home"))
-    return render_template("login.html", NOTLOGGEDIN = "Error: Wrong username or password.")  
+    return render_template("accounts.html", NOTLOGGEDIN = "Error: Wrong username or password.")  
 
 @app.route("/logout/")
 def logout():
@@ -79,19 +79,19 @@ def terms():
 def signup():
     check_user()
     if request.method=="GET":
-        return render_template("signup.html")
+        return render_template("accounts.html", signup = True)
     if request.form['pass'] != request.form['confirmpass']:
-        return render_template("signup.html",
-            NOTLOGGEDIN = "Error: Passwords do not match.")
+        return render_template("accounts.html",
+            NOTLOGGEDIN = "Error: Passwords do not match.", signup = True)
     if len(request.form['user']) < 4 or len(request.form['pass']) < 8:
-        return render_template("signup.html",
-            NOTLOGGEDIN = "Error: Username must be at least 4 characters and password must be at least 8 characters.")
+        return render_template("accounts.html",
+            NOTLOGGEDIN = "Error: Username must be at least 4 characters and password must be at least 8 characters.", signup = True)
     username = request.form['user']
     password = request.form['pass']
     button = request.form['button']
     if not Register.Register(username, password):
-        return render_template("signup.html",
-            NOTLOGGEDIN = "Error: Username already exists.")
+        return render_template("accounts.html",
+            NOTLOGGEDIN = "Error: Username already exists.", signup = True)
     return redirect(url_for('login'))
 
 @app.route("/myaccount/")
