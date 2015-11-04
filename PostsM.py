@@ -28,8 +28,6 @@ def retreivePost():
     result = posts.find();
     return result;
 
-#TODO: Finish writing this function
-#TODO: Cut out all the extraneous debuggnig code when done
 def getNextPostID():
     #print "inside getNextPostID"
     ids = []
