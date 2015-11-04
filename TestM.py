@@ -61,5 +61,12 @@ PostsM.makePost("title1", "body1", "uname1");
 PostsM.makePost("title2", "body2", "uname2");
 print
 
-print "--GETTING NEXT POST ID..."
+print "--GETTING NEXT POST ID:"
 print PostsM.getNextPostID();
+print
+
+print "--RETRIEVING POSTS:"
+posts = PostsM.retrievePost();
+for p in posts:
+    print p;
+print

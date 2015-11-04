@@ -7,7 +7,6 @@ client = MongoClient()
 db = client.posts
 posts = db.posts
 
-#TODO: This function has not been tested yet, has just been written
 def makePost(title, body, uname):
     T = title
     B = body
@@ -24,7 +23,7 @@ def makePost(title, body, uname):
     posts.insert(post)
     print post
     
-def retreivePost():
+def retrievePost():
     result = posts.find();
     return result;
 
