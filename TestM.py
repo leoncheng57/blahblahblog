@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import CommentsM
 import PostsM
 import RegisterM
+import LoginM
 
 print
 print
@@ -117,4 +118,29 @@ print "--RETRIEVING USERS:"
 users = RegisterM.retrieveUsers()
 for u in users:
     print u
+print
+
+
+##################
+# TESTING LOGINM #
+##################
+
+#the following 2 blocks below are the same as those of TESTING USERS 
+#because LOGINM and REGISTERM both user the same database, users
+client = MongoClient()
+db = client.users
+users = db.users
+
+#do NOT delete the users. The database is needed to be used for Login
+print "--USERS: " + str(users)
+# for user in users.find():
+#     users.remove()
+# print
+
+print "--LOGIN"
+print LoginM.Login("username2","password2")
+print
+
+print "--LOGIN"
+print LoginM.Login("username1","password1")
 print
