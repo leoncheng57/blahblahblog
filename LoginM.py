@@ -13,9 +13,6 @@ def Login(username, password):
     user = {"username":uname,
             "password":pword}
     print user
-    #print users.find(user)
-    # for u in users.find(user):
-    #     print u
     l = []
     for user in users.find(user):
         l.insert(0,user)
@@ -23,11 +20,3 @@ def Login(username, password):
         return False
     else:
         return True
-        
-    
-#seems like this function just returns True is the param is True?
-def correct_login(blah):
-    if blah:
-        return True
-    else:
-        return False
