@@ -3,6 +3,12 @@ from pymongo import MongoClient
 import CommentsM
 import PostsM
 
+print
+print
+print
+print "********PRINTING IS BEGINNING********"
+print
+
 ####################
 # TESTING COMMENTS #
 ####################
@@ -11,12 +17,11 @@ client = MongoClient()
 db = client.comments
 comments = db.comments
 
+
 print "--COMMENTS: " + str(comments)
 for comment in comments.find():
     comments.remove()
 print
-
-#NOTE: Insert commands to test in starting here...
 
 print "--MAKING COMMENTS..."
 CommentsM.makeComment(42,"this is the body","this is the username")
@@ -31,6 +36,7 @@ print
 
 print "--REMOVING COMMENTS..."
 CommentsM.deleteComments(42)
+print
 print
 
 print "--PRINTING OUT EVERYTHING IN COMMENTS: "
@@ -50,10 +56,10 @@ for post in posts.find():
     posts.remove()
 print
 
-
 print "--MAKING POST..."
-PostsM.makePost("sample title", "sample body", "sample uname");
-PostsM.makePost("sample title", "sample body", "sample uname");
-PostsM.makePost("sample title", "sample body", "sample uname");
+PostsM.makePost("title1", "body1", "uname1");
+PostsM.makePost("title2", "body2", "uname2");
+print
+
 print "--GETTING NEXT POST ID..."
 print PostsM.getNextPostID();
