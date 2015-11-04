@@ -4,7 +4,7 @@ import datetime
 import time
 
 client = MongoClient()
-db = client.posts
+db = client.blogdb
 posts = db.posts
 
 def makePost(title, body, uname):
@@ -24,8 +24,7 @@ def makePost(title, body, uname):
     print post
     
 def retrievePost():
-    result = posts.find()
-    return result
+    return posts.find()
 
 def getNextPostID():
     #print "inside getNextPostID"

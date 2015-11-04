@@ -4,7 +4,7 @@ import datetime
 import time
 
 client = MongoClient()
-db = client.comments
+db = client.blogdb
 comments = db.comments
 
 def makeComment(ID, body, uname):
@@ -22,7 +22,9 @@ def makeComment(ID, body, uname):
    
 
 def retrieveComments(ID):
-    result = comments.find({"commentID":ID})
+    result = []
+    for comment in comments.find({"commentID":ID}):
+        result.append(comment)
     return result
 
 

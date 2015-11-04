@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import Login, Register, Posts, Comments, utils
+import Posts, Comments, utils
+import LoginM, RegisterM, PostsM, CommentsM
 import sqlite3, csv
 
 app = Flask(__name__)
@@ -14,41 +15,44 @@ def check_user():
 def home():
     check_user()
     comments = []
-    posts = Posts.retrievePost()
+    posts = []
+    for post in PostsM.retrievePost():
+        posts.append(post)
     query = None
     error = None
     for post in posts: # Comment retrieval.
-        if len(Comments.retrieveComments(post[2])) != 0: 
-            comments.append(Comments.retrieveComments(post[2]))
+        if len(CommentsM.retrieveComments(post['id'])) != 0: 
+            comments.extend(CommentsM.retrieveComments(post['id']))
+    print "COMMENTS=", comments
     if request.method == "POST": # If a POST request is received...
-        if session['user'] == None: # If the user is not signed in...
-            if 'search' in request.form: # If the user is performing a search...
-                posts = utils.search(request.form['query'], posts, comments)
-                query = request.form['query']
-            else: # Otherwise, send them back to home... (should give an error as well)
-                error = "Sorry! You need to be signed in to do that."
+        if 'search' in request.form: # If the user is performing a search...
+            posts = utils.search(request.form['query'], posts, comments)
+            query = request.form['query']
+        elif session['user'] == None:
+            error = "Sorry! You need to be signed in to do that."
         else:
             if 'submitcomment' in request.form:
+                print "BINGBONG"
                 for post in posts:
-                    if str(post[2]) in request.form:
-                        Comments.makeComment(
-                            post[2],
-                            request.form[str(post[2])],
+                    if str(post['id']) in request.form:
+                        CommentsM.makeComment(
+                            post['id'],
+                            request.form[str(post['id'])],
                             session['user']) 
                         return redirect('/')
             if 'submitpost' not in request.form: # Well that's one [very backwards] way of doing it...
-                for post in Posts.retrievePost():
-                    if str(post[2]) in request.form: # OH IS THIS WHY?! Ugh.
-                        Posts.deletePost(post[2])
-                        Comments.deleteComments(post[2]) # This should probably be built in to deletePost()
+                for post in posts:
+                    if str(post['id']) in request.form: # OH IS THIS WHY?! Ugh.
+                        PostsM.deletePost(post['id'])
+                        CommentsM.deleteComments(post['id']) # This should probably be built in to deletePost()
             else:
                 title = request.form['title']
                 cont = request.form['cont']
-                Posts.makePost(title, cont, session['user'])
+                PostsM.makePost(title, cont, session['user'])
     return render_template(
         "home.html",
         LOGGEDIN = session['user'],
-        POSTS = Posts.retrievePost(),
+        POSTS = posts,
         COMMENTS = comments,
         QUERY = query,
         ERROR = error)
@@ -58,7 +62,7 @@ def login():
     check_user()
     error = None
     if request.method == 'POST':
-        if Login.Login(request.form['user'], request.form['pass']):
+        if LoginM.Login(request.form['user'], request.form['pass']):
             session['user'] = request.form['user']
             return redirect('/')
         else:
@@ -82,7 +86,7 @@ def signup():
         elif password != request.form['confirmpass']:
             error = "Error: Passwords do not match."
         else:
-            if not Register.Register(username, password):
+            if not RegisterM.Register(username, password):
                 error = "Error: Username already exists."
             else:
                 return redirect(url_for('login'))

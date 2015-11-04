@@ -4,7 +4,7 @@ import datetime
 import time
 
 client = MongoClient()
-db = client.users
+db = client.blogdb
 users = db.users
 
 def Login(username, password):

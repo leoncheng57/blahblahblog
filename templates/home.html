@@ -27,26 +27,24 @@
 </form>
 
 {% for post in POSTS: %}
-  <b><h1>{{post[0]}}</h1></b>
-  Posted by {{post[5]}} on {{post[4]}} <h3>{{post[1]}}</h3> 
+  <b><h1>{{post['title']}}</h1></b>
+  Posted by {{post['user']}} on {{post['date']}} <h3>{{post['body']}}</h3> 
   
-  {% if LOGGEDIN == post[5] %}
+  {% if LOGGEDIN == post['user'] %}
     <form method="POST" role="form">
-      <input type="submit" class="button" name="{{post[2]}}" value="Delete this post.">
+      <input type="submit" class="button" name="{{post['id']}}" value="Delete this post.">
     </form>
   {% endif %}
   <br>
-  {% for comment_set in COMMENTS: %}
-    {% if comment_set[0][0] == post[2] %} <!--if this set's comment IDs match this post ID--> 
-      {% for comment in comment_set %}
-        &nbsp;&nbsp;&nbsp;&nbsp;{{comment[3]}}, &nbsp;{{comment[4]}} commented: {{comment[1]}}<br>
-      {% endfor %}
+  {% for comment in COMMENTS: %}
+    {% if comment['commentID'] == post['id'] %}
+      &nbsp;&nbsp;&nbsp;&nbsp;{{comment['date']}}, &nbsp;{{comment['user']}} commented: {{comment['body']}}<br>
     {% endif %}
   {% endfor %}
   <br>
   <form method="POST" role="form">
     <div class="col-xs-4">
-      <textarea type="text" name="{{post[2]}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
+      <textarea type="text" name="{{post['id']}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
       <input type="submit" class="button" name="submitcomment" value="Comment.">
     </div>
   </form>
@@ -61,23 +59,21 @@
 <h2> Search results for "{{QUERY}}": (case-sensitive) </h2>
 All posts containing the query in the post title, body, or any comments are displayed, along with all of their comments.
 	{% for post in POSTS: %}
-	  <b><h1> {{post[0]}} </h1></b> Posted by {{post[5]}} on {{post[4]}}<h3> {{post[1]}} </h3> 
-	  {% if LOGGEDIN == post[5]%}
+	  <b><h1> {{post['title']}} </h1></b> Posted by {{post['user']}} on {{post['date']}}<h3> {{post['body']}} </h3> 
+	  {% if LOGGEDIN == post['user']%}
 	  <form method="POST" role="form">
-  	  <input type="submit" class="button" name="{{post[2]}}" value="Delete this post.">
+  	  <input type="submit" class="button" name="{{post['id']}}" value="Delete this post.">
 	  </form>
 	  {% endif %}
 	  <br>
-	  {% for comment_set in COMMENTS: %}
-		  {% if comment_set[0][0] == post[2] %} <!--if this set's comment IDs match this post ID--> 
-			  {% for comment in comment_set %}
-				  &nbsp;&nbsp;&nbsp;&nbsp;{{comment[3]}}, &nbsp;{{comment[4]}} commented: {{comment[1]}} <br>
-			  {% endfor %}
+	  {% for comment in COMMENTS: %}
+		  {% if comment['commentID'] == post['id'] %}
+				&nbsp;&nbsp;&nbsp;&nbsp;{{comment['date']}}, &nbsp;{{comment['author']}} commented: {{comment['body']}} <br>
 		  {% endif %}
 		{% endfor %}
 		<br>
     <form method="POST" role="form"><div class="col-xs-4">
-      <textarea type="text" name="{{post[2]}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
+      <textarea type="text" name="{{post['id']}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
 	    <input type="submit" class="button" name="submitcomment" value="Comment.">
 	  </div></form>
 	  <br>
