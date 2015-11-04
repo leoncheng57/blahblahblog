@@ -41,4 +41,4 @@ def checkAvail(username):
 
 def retrieveUsers():
     result = users.find()
-    print result
+    return result
