@@ -7,6 +7,7 @@ app = Flask(__name__)
 def check_user():
     if 'user' not in session:
         session['user'] = None
+    return session['user']
 
 @app.route("/", methods=["GET","POST"])
 @app.route("/home/", methods=["GET","POST"])
@@ -89,15 +90,14 @@ def signup():
 
 @app.route("/myaccount/")
 def myaccount():
-    check_user()
+    user = check_user()
     if session['user'] == None:
         return redirect(url_for('login'))
-    return render_template("myaccount.html", LOGGEDIN = session['user'])
+    return render_template("myaccount.html", LOGGEDIN = user)
 		
 @app.route("/about/")
 def about():
-    check_user()
-    return(render_template("about.html", LOGGEDIN = session['user']))
+    return(render_template("about.html", LOGGEDIN = check_user()))
 
 
 if __name__== "__main__":
