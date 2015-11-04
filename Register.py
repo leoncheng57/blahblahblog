@@ -15,7 +15,6 @@ def Register(username, password):
     else:
         return False
 
-#TODO: remove getNextID
 def getNextID():
     conn = sqlite3.connect("backend")
     c = conn.cursor()
