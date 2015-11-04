@@ -1,5 +1,3 @@
-import Posts
-
 def search(query, posts, comments):
     posts_with_query = []
     for post in posts:

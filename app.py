@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import Posts, Comments, utils
-import LoginM, RegisterM, PostsM, CommentsM
+import LoginM, RegisterM, PostsM, CommentsM, utils
 import sqlite3, csv
 
 app = Flask(__name__)
