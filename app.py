@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import Posts, Comments, utils
-import posts as posty
-import LoginM, RegisterM, PostsM, CommentsM
+import LoginM, RegisterM, posts, utils
 import sqlite3, csv
 
 app = Flask(__name__)
@@ -17,20 +15,20 @@ def check_user():
 def index():
     if check_user():
         if 'submitpost' in request.form:
-            posty.make_post(
+            posts.make_post(
                 request.form['title'],
                 session['user'],
                 request.form['content'])
         if 'submitcomment' in request.form:
-            posty.make_comment(
+            posts.make_comment(
                 request.form['postid'],
                 session['user'],
                 request.form['content'])
         if 'deletepost' in request.form:
-            posty.delete_post(request.form['postid'])
+            posts.delete_post(request.form['postid'])
     return render_template(
         "home.html",
-        posts = posty.get_posts(request.args.get('query')),
+        posts = posts.get_posts(request.args.get('query')),
         user = session['user'],
         query = request.args.get('query'))
 
