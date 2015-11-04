@@ -1,5 +1,5 @@
 import pymongo
-import pymongo from MongoClient
+from pymongo import MongoClient
 import datetime
 import time
 
@@ -22,3 +22,26 @@ def makePost(title, body, uname):
             "date":D,
             "user":U}
     posts.insert(post)
+
+def retreivePost():
+    result = posts.find();
+    return result;
+
+#TODO: Finish writing this function
+#TODO: Cut out all the extraneous debuggnig code when done
+def getNextPostID():
+    print "inside getNextPostID"
+    ids = []
+    for post in posts.find():
+        print post
+        ids.insert(0,post["id"])
+    if (len(ids)==0):
+        return 1
+    nextID = max(ids)+1;
+    print "ids: "+str(ids)
+    return nextID;
+
+        
+    
+
+    
