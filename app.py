@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-import LoginM, RegisterM, posts, utils
+import posts, users
 import sqlite3, csv
 
 app = Flask(__name__)
@@ -37,7 +37,7 @@ def login():
     check_user()
     error = None
     if request.method == 'POST':
-        if LoginM.Login(request.form['user'], request.form['pass']):
+        if users.login(request.form['user'], request.form['pass']):
             session['user'] = request.form['user']
             return redirect('/index')
         else:
@@ -61,7 +61,7 @@ def signup():
         elif password != request.form['confirmpass']:
             error = "Error: Passwords do not match."
         else:
-            if not RegisterM.Register(username, password):
+            if not users.register(username, password):
                 error = "Error: Username already exists."
             else:
                 return redirect(url_for('login'))
@@ -70,7 +70,7 @@ def signup():
 @app.route("/myaccount/")
 def myaccount():
     user = check_user()
-    if session['user'] == None:
+    if user:
         return redirect(url_for('login'))
     return render_template("myaccount.html", LOGGEDIN = user)
 		
