@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block nav %}
+{% if LOGGEDIN %}
+<li><a href="/myaccount"><span class="glyphicon glyphicon-user"></span> &nbsp;Hello, {{LOGGEDIN}}!</a></li>
+<li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+{% else %}
+<li{% if     signup %} class="active"{% endif %}><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+<li{% if not signup %} class="active"{% endif %}><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log in</a></li>
+{% endif %}
+{% endblock %}
+
+
+{% block contents %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+      	
+      	
+				<h2><center>{% if not signup %}Login{% else %}Sign-Up{% endif %}</center></h2>
+				<form method="POST" role="form">
+	  		<hr class="colorgraph">
+					<div class="form-group">
+						<input type="text" name="user" class="form-control input-lg" placeholder="Username" tabindex="3">
+					</div>
+					<div class="row">
+						{% if not signup %}
+						<div class="col-xs-12 col-sm-12 col-md-12"><div class="form-group">
+							<input type="password" name="pass" class="form-control input-lg" placeholder="Password" tabindex="5">
+						</div></div>
+						{% else %}
+							<div class="col-xs-6 col-sm-6 col-md-6"><div class="form-group">
+								<input type="password" name="pass" class="form-control input-lg" placeholder="Password" tabindex="5">
+							</div></div>
+							<div class="col-xs-6 col-sm-6 col-md-6"><div class="form-group">
+								<input type="password" name="confirmpass" class="form-control input-lg" placeholder="Confirm Password" tabindex="6">
+							</div></div>
+						{% endif %}
+					</div>
+				<hr class="colorgraph">
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" name="button" value="{% if not signup %}Sign In{% else %}Register{% endif %}">
+					</div>
+				</form>
+      </div>
+    </div>
+	</div>
+  
+  {% if NOTLOGGEDIN %}
+  <center><h1>{{NOTLOGGEDIN}}</h1></center>
+  {% endif %}
+
+{% endblock %}
