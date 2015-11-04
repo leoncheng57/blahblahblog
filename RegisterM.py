@@ -7,10 +7,23 @@ client = MongoClient()
 db = client.users
 users = db.users
 
+def Register(username, password):
+    if checkAvail(username):
+        uname = username
+        pword = password
+        nextID = getNextID()
+        user = {"username":uname,
+                "password":pword,
+                "ID":nextID}
+        users.insert(user)
+        return True
+    else:
+        return False
+
 def getNextID():
     ids = []
     for user in users.find():
-        ids.insert(0,user["id"])
+        ids.insert(0,user["ID"])
     if(len(ids)==0):
         return 1
     nextID = max(ids)+1;
@@ -20,7 +33,7 @@ def checkAvail(username):
     unames=[]
     for user in users.find():
         unames.insert(0,user["username"]);
-    if (len(unames)==0):
+    if (len(unames)==0): #so the username is in the system
         return False
     else:
         return True

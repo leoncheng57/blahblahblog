@@ -86,3 +86,8 @@ print
 
 print "--GETNEXTID:"
 print RegisterM.getNextID();
+print
+
+print "--REGISTER:"
+print RegisterM.Register("username2", "password2")
+print
