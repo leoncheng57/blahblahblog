@@ -39,6 +39,7 @@ def checkAvail(username):
     else:
         return True
 
+#this was not in the original groups code, but is added here in case it is useful
 def retrieveUsers():
     result = users.find()
     return result
