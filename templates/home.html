@@ -1,8 +1,8 @@
-{% extends "base.html" %}
+{% extends "home.html" %}
 
 {% block navbar %}
 <li class="active"><a href="/">Home</a></li>
-{% if LOGGEDIN %}
+{% if user %}
 <li><a href="/myaccount">My Account</a></li>
 {% endif %}
 <li><a href="/about">About</a></li>
@@ -10,41 +10,34 @@
 
 {% block contents %}
 
-<!--
-    <div class="input-group margin-bottom-sm">
-      <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i>Post</span>
-      <input class="form-control" type="text" placeholder="Make a post">
-    </div>
-    --> 
-
-{% if not QUERY %}
+{% if not query %}
 
 <h2>Make a new post:</h2>
 <form method="POST" role="form">
   <textarea type="text" name="title" class="form-control custom-control" rows="1" placeholder="Title" style="resize:none"></textarea>
-  <textarea type="text" name="cont" class="form-control custom-control" rows="3" placeholder="Post content" style="resize:none"></textarea>
+  <textarea type="text" name="content" class="form-control custom-control" rows="3" placeholder="Post content" style="resize:none"></textarea>
   <input type="submit" class="btn btn-info" name="submitpost" value="Spread the news!">
 </form>
 
-{% for post in POSTS: %}
+{% for post in posts: %}
   <b><h1>{{post['title']}}</h1></b>
-  Posted by {{post['user']}} on {{post['date']}} <h3>{{post['body']}}</h3> 
+  Posted by {{post['author']}} on {{post['date']}} <h3>{{post['content']}}</h3> 
   
-  {% if LOGGEDIN == post['user'] %}
+  {% if user == post['author'] %}
     <form method="POST" role="form">
-      <input type="submit" class="button" name="{{post['id']}}" value="Delete this post.">
+      <input type="hidden" name="postid" value="{{ post['_id'] }}">
+      <input type="submit" class="button" name="deletepost" value="Delete this post.">
     </form>
   {% endif %}
   <br>
-  {% for comment in COMMENTS: %}
-    {% if comment['commentID'] == post['id'] %}
-      &nbsp;&nbsp;&nbsp;&nbsp;{{comment['date']}}, &nbsp;{{comment['user']}} commented: {{comment['body']}}<br>
-    {% endif %}
+  {% for comment in post['comments']: %}
+    &nbsp;&nbsp;&nbsp;&nbsp;{{comment['date']}}, &nbsp;{{comment['author']}} commented: {{comment['content']}}<br>
   {% endfor %}
   <br>
   <form method="POST" role="form">
     <div class="col-xs-4">
-      <textarea type="text" name="{{post['id']}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
+      <input type="hidden" name="postid" value="{{post['_id']}}">
+      <textarea type="text" name="content" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
       <input type="submit" class="button" name="submitcomment" value="Comment.">
     </div>
   </form>
@@ -56,25 +49,25 @@
 
 {% else %}
 
-<h2> Search results for "{{QUERY}}": (case-sensitive) </h2>
-All posts containing the query in the post title, body, or any comments are displayed, along with all of their comments.
-	{% for post in POSTS: %}
-	  <b><h1> {{post['title']}} </h1></b> Posted by {{post['user']}} on {{post['date']}}<h3> {{post['body']}} </h3> 
-	  {% if LOGGEDIN == post['user']%}
+<h2> Search results for "{{query}}": (case-insensitive) </h2>
+All posts containing the query in the post title, content, or any comments are displayed, along with all of their comments.
+	{% for post in posts: %}
+	  <b><h1> {{post['title']}} </h1></b> Posted by {{post['author']}} on {{post['date']}}<h3> {{post['content']}} </h3> 
+	  {% if user == post['author']%}
 	  <form method="POST" role="form">
-  	  <input type="submit" class="button" name="{{post['id']}}" value="Delete this post.">
+      <input type="hidden" name="postid" value="{{ post['_id'] }}">
+      <input type="submit" class="button" name="deletepost" value="Delete this post.">
 	  </form>
 	  {% endif %}
 	  <br>
-	  {% for comment in COMMENTS: %}
-		  {% if comment['commentID'] == post['id'] %}
-				&nbsp;&nbsp;&nbsp;&nbsp;{{comment['date']}}, &nbsp;{{comment['author']}} commented: {{comment['body']}} <br>
-		  {% endif %}
+	  {% for comment in post['comments']: %}
+			&nbsp;&nbsp;&nbsp;&nbsp;{{comment['date']}}, &nbsp;{{comment['author']}} commented: {{comment['content']}} <br>
 		{% endfor %}
 		<br>
     <form method="POST" role="form"><div class="col-xs-4">
-      <textarea type="text" name="{{post['id']}}" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
-	    <input type="submit" class="button" name="submitcomment" value="Comment.">
+      <input type="hidden" name="postid" value="{{post['_id']}}">
+      <textarea type="text" name="content" id="ex3" class="form-control custom-control" rows="1" placeholder="Make a comment..." style="resize:none"></textarea>
+      <input type="submit" class="button" name="submitcomment" value="Comment.">
 	  </div></form>
 	  <br>
 	  <br>

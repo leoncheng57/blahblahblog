@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import Posts, Comments, utils
+import posts as posty
 import LoginM, RegisterM, PostsM, CommentsM
 import sqlite3, csv
 
@@ -12,50 +13,26 @@ def check_user():
 
 @app.route("/", methods=["GET","POST"])
 @app.route("/home/", methods=["GET","POST"])
-def home():
-    check_user()
-    comments = []
-    posts = []
-    for post in PostsM.retrievePost():
-        posts.append(post)
-    query = None
-    error = None
-    for post in posts: # Comment retrieval.
-        if len(CommentsM.retrieveComments(post['id'])) != 0: 
-            comments.extend(CommentsM.retrieveComments(post['id']))
-    print "COMMENTS=", comments
-    if request.method == "POST": # If a POST request is received...
-        if 'search' in request.form: # If the user is performing a search...
-            posts = utils.search(request.form['query'], posts, comments)
-            query = request.form['query']
-        elif session['user'] == None:
-            error = "Sorry! You need to be signed in to do that."
-        else:
-            if 'submitcomment' in request.form:
-                print "BINGBONG"
-                for post in posts:
-                    if str(post['id']) in request.form:
-                        CommentsM.makeComment(
-                            post['id'],
-                            request.form[str(post['id'])],
-                            session['user']) 
-                        return redirect('/')
-            if 'submitpost' not in request.form: # Well that's one [very backwards] way of doing it...
-                for post in posts:
-                    if str(post['id']) in request.form: # OH IS THIS WHY?! Ugh.
-                        PostsM.deletePost(post['id'])
-                        CommentsM.deleteComments(post['id']) # This should probably be built in to deletePost()
-            else:
-                title = request.form['title']
-                cont = request.form['cont']
-                PostsM.makePost(title, cont, session['user'])
+@app.route("/index/", methods=["GET", "POST"])
+def index():
+    if check_user():
+        if 'submitpost' in request.form:
+            posty.make_post(
+                request.form['title'],
+                session['user'],
+                request.form['content'])
+        if 'submitcomment' in request.form:
+            posty.make_comment(
+                request.form['postid'],
+                session['user'],
+                request.form['content'])
+        if 'deletepost' in request.form:
+            posty.delete_post(request.form['postid'])
     return render_template(
         "home.html",
-        LOGGEDIN = session['user'],
-        POSTS = posts,
-        COMMENTS = comments,
-        QUERY = query,
-        ERROR = error)
+        posts = posty.get_posts(request.args.get('query')),
+        user = session['user'],
+        query = request.args.get('query'))
 
 @app.route("/login/", methods=['GET', 'POST'])
 def login():
@@ -64,7 +41,7 @@ def login():
     if request.method == 'POST':
         if LoginM.Login(request.form['user'], request.form['pass']):
             session['user'] = request.form['user']
-            return redirect('/')
+            return redirect('/index')
         else:
             error = "Error: Wrong username or password."
     return render_template("accounts.html", NOTLOGGEDIN = error)

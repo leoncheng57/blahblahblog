@@ -11,7 +11,7 @@
   <body><div class="container">
 
       <img class="img-responsive center-block"
-	   src="/../static/spreddit.png"
+	   src="{{ url_for('static', filename='spreddit.png') }}"
 	   width="70%"
 	   height="70%">
       
@@ -20,26 +20,26 @@
 	    <ul class="nav navbar-nav">
 	      {% block navbar %}
 	      <li><a href="/">Home</a></li>
-	      {% if LOGGEDIN %}
+	      {% if user %}
 	      <li><a href="/myaccount">My Account</a></li>
 	      {% endif %}
 	      <li><a href="/about">About</a></li>
 	      {% endblock %}
 	    </ul>
 	    
-	    <form action="" class="navbar-form navbar-right" method="POST"><div class="input-group">
-		<input type="Search" name="query" placeholder="Search..." class="form-control" />
-		<div class="input-group-btn">
-		  <button class="btn btn-info" name="search">
-		    <span class="glyphicon glyphicon-search"></span>
-		  </button>
-		</div>
+	    <form action="" class="navbar-form navbar-right" method="GET"><div class="input-group">
+				<input type="Search" name="query" placeholder="Search..." class="form-control" />
+					<div class="input-group-btn">
+						<button class="btn btn-info">
+							<span class="glyphicon glyphicon-search"></span>
+						</button>
+					</div>
 	    </div></form>
 
 	    <ul class="nav navbar-nav navbar-right">
 	      {% block nav %}
-	      {% if LOGGEDIN %}
-	      <li><a href="/myaccount"><span class="glyphicon glyphicon-user"></span> &nbsp;Hello, {{LOGGEDIN}}!</a></li>
+	      {% if user %}
+	      <li><a href="/myaccount"><span class="glyphicon glyphicon-user"></span> &nbsp;Hello, {{user}}!</a></li>
 	      <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
 	      {% else %}
 	      <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
