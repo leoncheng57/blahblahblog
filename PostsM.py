@@ -24,8 +24,8 @@ def makePost(title, body, uname):
     print post
     
 def retrievePost():
-    result = posts.find();
-    return result;
+    result = posts.find()
+    return result
 
 def getNextPostID():
     #print "inside getNextPostID"
