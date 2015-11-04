@@ -16,6 +16,7 @@ def Register(username, password):
                 "password":pword,
                 "ID":nextID}
         users.insert(user)
+        print user
         return True
     else:
         return False
@@ -31,9 +32,22 @@ def getNextID():
 
 def checkAvail(username):
     unames=[]
-    for user in users.find():
+    for user in users.find({"username":username})
         unames.insert(0,user["username"]);
-    if (len(unames)==0): #so the username is in the system
-        return False
+    if (len(unames)!=0): 
+        return False #so the username is already in the system
     else:
         return True
+
+def checkAvail(username):
+    l = []
+    for user in users.find({"username":usernames}):
+        l.insert(0,user["username"])
+    if (len(l)!=0):
+        return False #so the username is already in the system
+    else:
+        return True
+
+def retrieveUsers():
+    result = users.find()
+    print result

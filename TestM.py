@@ -63,13 +63,13 @@ PostsM.makePost("title2", "body2", "uname2");
 print
 
 print "--GETTING NEXT POST ID:"
-print PostsM.getNextPostID();
+print PostsM.getNextPostID()
 print
 
 print "--RETRIEVING POSTS:"
-posts = PostsM.retrievePost();
+posts = PostsM.retrievePost()
 for p in posts:
-    print p;
+    print p
 print
 
 
@@ -79,6 +79,15 @@ print
 client = MongoClient()
 db = client.users
 users = db.users
+
+print "--USERS: " + str(users)
+for user in users.find():
+    users.remove()
+print
+
+print "--CHECKAVAIL:"
+print RegisterM.checkAvail("username1");
+print
 
 print "--CHECKAVAIL:"
 print RegisterM.checkAvail("username1");
