@@ -86,7 +86,7 @@ for user in users.find():
 print
 
 print "--CHECKAVAIL:"
-print RegisterM.checkAvail("username1");
+print RegisterM.checkAvail("username2");
 print
 
 print "--GETNEXTID:"
@@ -103,4 +103,19 @@ print
 
 print "--REGISTER:"
 print RegisterM.Register("username2", "password2")
+print
+
+print "--CHECKAVAIL:"
+print RegisterM.checkAvail("username2");
+print
+
+print "--GETNEXTID:"
+print RegisterM.getNextID();
+print
+
+print "--RETRIEVING USERS:"
+users = RegisterM.retrieveUsers()
+print users
+for u in users:
+    print u
 print
