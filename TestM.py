@@ -2,6 +2,7 @@ import pymongo
 from pymongo import MongoClient
 import CommentsM
 import PostsM
+import RegisterM
 
 print
 print
@@ -70,3 +71,18 @@ posts = PostsM.retrievePost();
 for p in posts:
     print p;
 print
+
+
+###############################
+# TESTING USERS aka REGISTERM #
+###############################
+client = MongoClient()
+db = client.users
+users = db.users
+
+print "--CHECKAVAIL:"
+print RegisterM.checkAvail("username1");
+print
+
+print "--GETNEXTID:"
+print RegisterM.getNextID();
