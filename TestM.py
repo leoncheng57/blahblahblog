@@ -89,12 +89,16 @@ print "--CHECKAVAIL:"
 print RegisterM.checkAvail("username1");
 print
 
-print "--CHECKAVAIL:"
-print RegisterM.checkAvail("username1");
-print
-
 print "--GETNEXTID:"
 print RegisterM.getNextID();
+print
+
+print "--REGISTER:"
+print RegisterM.Register("username2", "password2")
+print
+
+print "--REGISTER:"
+print RegisterM.Register("username2", "password2")
 print
 
 print "--REGISTER:"

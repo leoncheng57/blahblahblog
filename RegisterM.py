@@ -31,17 +31,8 @@ def getNextID():
     return nextID
 
 def checkAvail(username):
-    unames=[]
-    for user in users.find({"username":username})
-        unames.insert(0,user["username"]);
-    if (len(unames)!=0): 
-        return False #so the username is already in the system
-    else:
-        return True
-
-def checkAvail(username):
     l = []
-    for user in users.find({"username":usernames}):
+    for user in users.find({"username":username}):
         l.insert(0,user["username"])
     if (len(l)!=0):
         return False #so the username is already in the system
