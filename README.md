@@ -35,3 +35,4 @@ A very bland blog. (a.k.a. Spreddit)
 
 ## Errors:
 - [ ] Creating a new post doesn't show up immediately. Only shows up after the next page refresh
+- [ ] New error with comments
