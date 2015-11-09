@@ -31,8 +31,3 @@ A very bland blog. (a.k.a. Spreddit)
  It ensures that there are no duplicate results even if the query appears multiple times in a post or in both a post and its comment(s).
  
  The user interface was designed with the use of Bootstrap; all backend and middleware code is original and manually typed.
-
-
-## Errors:
-- [ ] Creating a new post doesn't show up immediately. Only shows up after the next page refresh
-- [ ] New error with comments
